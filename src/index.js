@@ -6,6 +6,8 @@ const apiRoutes = require('./routes')
 
 const app = express();
 
+app.use(express.json()) // to parse request body of json form
+app.use(express.urlencoded({extended: true})) // to parse request body of urlencoded form
 
 app.use('/api', apiRoutes)
 app.listen(PORT, () =>{
