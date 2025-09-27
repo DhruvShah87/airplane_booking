@@ -1,35 +1,34 @@
-const { AirplaneService } = require('../services')
+const { CityService } = require('../services')
 const { StatusCodes } = require('http-status-codes')
 const { SuccessResponse, ErrorResponse } = require('../utils/common')
 const { Logger } = require('../config')
 
-async function createAirplane(req, res) {
+async function createCity(req, res) {
     try {
-        const airplane = await AirplaneService.createAirplane({
-            modelNumber: req.body.modelNumber,
-            capacity: req.body.capacity
+        const city = await CityService.createCity({
+            name: req.body.city,
         })
 
-        SuccessResponse.data = airplane
-        SuccessResponse.message = "Successsfully created Airplane"
+        SuccessResponse.data = city
+        SuccessResponse.message = "Successsfully created City"
 
         return res.status(StatusCodes.CREATED).json(SuccessResponse)
 
     } catch (error) {
 
         Logger.error(error)
-        ErrorResponse.message = "Not able to create airplane"
+        ErrorResponse.message = "Not able to create city"
         ErrorResponse.error = error
 
         return res.status(error.statusCode).json(ErrorResponse)
     }
 }
 
-async function getAirplanes(req, res) {
+async function getCities(req, res) {
     try {
-        const airplane = await AirplaneService.getAirplanes()
+        const city = await CityService.getCities()
 
-        SuccessResponse.data = airplane
+        SuccessResponse.data = city
         SuccessResponse.message = "Successsfully fetched airplanes"
 
         return res.status(StatusCodes.OK).json(SuccessResponse)
@@ -44,40 +43,40 @@ async function getAirplanes(req, res) {
     }
 }
 
-async function getAirplane(req, res) {
+async function getCity(req, res) {
     try {
         const id = req.params.id
-        const airplane = await AirplaneService.getAirplane(id)
+        const city = await CityService.getCity(id)
 
-        SuccessResponse.data = airplane
-        SuccessResponse.message = "Successsfully fetched airplane"
+        SuccessResponse.data = city
+        SuccessResponse.message = "Successsfully fetched city"
 
         return res.status(StatusCodes.OK).json(SuccessResponse)
 
     } catch (error) {
 
         Logger.error(error)
-        ErrorResponse.message = "Not able to fetch airplane"
+        ErrorResponse.message = "Not able to fetch city"
         ErrorResponse.error = error
 
         return res.status(error.statusCode).json(ErrorResponse)
     }
 }
 
-async function destroyAirplane(req, res) {
+async function destroyCity(req, res) {
     try {
         const id = req.params.id
-        const airplane = await AirplaneService.destroyAirplane(id)
+        const city = await CityService.destroyCity(id)
 
-        SuccessResponse.data = airplane
-        SuccessResponse.message = "Successsfully deleted airplane"
+        SuccessResponse.data = city
+        SuccessResponse.message = "Successsfully deleted city"
 
         return res.status(StatusCodes.OK).json(SuccessResponse)
 
     } catch (error) {
 
         Logger.error(error)
-        ErrorResponse.message = "Not able to delete airplane"
+        ErrorResponse.message = "Not able to delete city"
         ErrorResponse.error = error
 
         return res.status(error.statusCode).json(ErrorResponse)
@@ -86,8 +85,8 @@ async function destroyAirplane(req, res) {
 
 
 module.exports = {
-    createAirplane,
-    getAirplanes,
-    getAirplane,
-    destroyAirplane
+    createCity,
+    getCities,
+    getCity,
+    destroyCity
 }

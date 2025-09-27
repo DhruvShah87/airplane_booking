@@ -1,32 +1,32 @@
 const { StatusCodes } = require('http-status-codes');
-const {AirplaneRepository} = require('../repositories');
+const {CityRepository} = require('../repositories');
 const { Logger } = require('../config');
 const {AppError} = require('../utils/errors')
 
-const airplaneRepository = new AirplaneRepository();
+const cityRepository = new CityRepository();
 
-async function createAirplane(data){
+async function createCity(data){
     try {
-        const airplane = await airplaneRepository.create(data);
-        return airplane;
+        const city = await cityRepository.create(data);
+        return city;
 
     } catch (error) {
-            if(error.name == 'SequelizeValidationError'){
+            if(error.name == 'SequelizeValidationError' || error.name == 'SequelizeUniqueConstraintError'){
                 let explanation = [];
                 error.errors.forEach((err) => {
                     explanation.push(err.message)
                 })
                 throw new AppError(explanation, StatusCodes.BAD_REQUEST);
             }
-            throw new AppError(`Can't Create a Airplane Object`, StatusCodes.INTERNAL_SERVER_ERROR)
+            throw new AppError(`Can't Create a City Object`, StatusCodes.INTERNAL_SERVER_ERROR)
        
     }
 }
 
-async function getAirplanes(){
+async function getCities(){
     try {
-        const airplanes = await airplaneRepository.getAll();
-        return airplanes;
+        const cities = await cityRepository.getAll();
+        return cities;
 
     } catch (error) {
             throw new AppError(`Can't Fetch Data`, StatusCodes.INTERNAL_SERVER_ERROR)
@@ -34,10 +34,10 @@ async function getAirplanes(){
     }
 }
 
-async function getAirplane(id){
+async function getCity(id){
     try {
-        const airplane = await airplaneRepository.get(id);
-        return airplane;
+        const city = await cityRepository.get(id);
+        return city;
 
     } catch (error) {
             if(error instanceof AppError){
@@ -48,23 +48,23 @@ async function getAirplane(id){
     }
 }
 
-async function destroyAirplane(id){
+async function destroyCity(id){
     try {
-        const response = await airplaneRepository.destroy(id);
+        const response = await cityRepository.destroy(id);
         return response;
 
     } catch (error) {
             if(error instanceof AppError){
                 throw error
             }
-            throw new AppError(`Can't Delete Airplane`, StatusCodes.INTERNAL_SERVER_ERROR)
+            throw new AppError(`Can't Delete City`, StatusCodes.INTERNAL_SERVER_ERROR)
        
     }
 }
 
 module.exports ={
-    createAirplane,
-    getAirplanes,
-    getAirplane,
-    destroyAirplane
+    createCity,
+    getCities,
+    getCity,
+    destroyCity
 }
