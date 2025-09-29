@@ -6,7 +6,7 @@ const { add } = require('winston')
 
 async function createAirport(req, res) {
     try {
-        const airport = await AirportService.createAirplane({
+        const airport = await AirportService.createAirport({
             name: req.body.name,
             code: req.body.code,
             address: req.body.address || null,
@@ -20,6 +20,7 @@ async function createAirport(req, res) {
 
     } catch (error) {
 
+        console.log(error)
         Logger.error(error)
         ErrorResponse.message = "Not able to create airport"
         ErrorResponse.error = error
