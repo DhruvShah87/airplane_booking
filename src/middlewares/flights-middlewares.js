@@ -62,6 +62,20 @@ function validateCreateRequest(req, res, next) {
         next()
 }
 
+function validateUpdateSeatsRequest(req, res, next) {
+    if( !req.params.id){
+        ErrorResponse.message = "Something went wrong"
+        ErrorResponse.error = "Flight ID not receieved in expected format"
+    }
+
+    if( !req.body.seats){
+        ErrorResponse.message = "Something went wrong"
+        ErrorResponse.error = "Seats not receieved in expected format"
+    }
+
+    next()
+}
 module.exports = {
-    validateCreateRequest
+    validateCreateRequest,
+    validateUpdateSeatsRequest
 }
